@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+/* css초기화 */
+*{margin:0; padding:0;font-style: inherit;}
+li{ list-style:none; }
+a{ text-decoration:none; }
+
+page{
+	margin: 55px auto;
+	padding-top:25px;
+}
+
+.main{
+    margin: 60px auto 0;
+    max-width: 950px;
+    width: 100%;
+
+}
+
+.main .post_img{
+	width:320px;
+	height:568px;
+	border-style:dashed;
+	border-color:#DBDBDB;
+	border-width:thin;
+	border-radius:4px;
+	position:relative;
+    float:left;
+    background-color:#fafafa;
+    display:table;
+}
+
+/* 글자 세로정렬이 안돼서 이렇게 따로 해줘야 함 */
+.main .post_img .post_img_text{
+	text-align:center;
+    vertical-align:middle;
+	display:table-cell;
+	padding:23;
+}
+
+.main .post_img .post_img_text .text1{
+    font-size: 16px;
+    font-weight: 600;
+   	width:100%;
+   	margin-bottom:12px;
+}
+
+.main .post_img .post_img_text .text2{
+    color: #8e8e8e;
+    font-size: 12px;
+    width:100%;
+}
+
+.main .post_text{
+	text-align:center;
+	width:555px;
+	height:796px;
+	position:relative;
+    float:left;
+    margin-left:60px;
+}
+
+

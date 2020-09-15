@@ -16,13 +16,33 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<context:component-scan base-package="com.bis.instagrarn" />
+	</beans:bean>
+	 -->
+	<context:annotation-config />
+
+	<beans:bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+
+		<beans:property name="url"
+			value="jdbc:mysql://13.209.7.121:3306/InstagrarnDB?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Seoul&amp;useSSL=false" />
+		<beans:property name="username" value="InstagrarnMysql" />
+		<beans:property name="password" value="1111" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.bis.instagrarn" />
+	<beans:bean id="mulitpartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="104857600"/>
+    </beans:bean>
+
+	<beans:bean class="com.bis.instagrarn.HomeController"/>  
+	<beans:bean id="userService" class="service.UserService"/>
+	<beans:bean id="userDAO" class="dao.UserDAO"/>
 	
-	
+	<beans:bean class="com.bis.instagrarn.ProfileController"/>
 	
 </beans:beans>

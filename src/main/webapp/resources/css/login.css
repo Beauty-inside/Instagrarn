@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/* css초기화 */
+*{margin:0; padding:0;font-style: inherit;}
+li{ list-style:none; }
+a{ text-decoration:none; }
+body{
+	background-color: #FAFAFA;
+
+}
+.container{
+	width:750px;
+	text-align: center;
+	margin: 80px auto;
+}
+.container img{
+	display: inline;
+	position: relative;
+	float:left;
+}
+.user_container{
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+	
+	margin-top:20px;
+	height:380px;
+	width:350px;
+	background-color: #fff;
+	text-align: center;
+	position: relative;
+	float:right;
+}
+.user_container2{
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+	margin-top:15px;
+	height:60px;
+	width:350px;
+	background-color: #fff;
+	text-align: center;
+	position: relative;
+	float:right;
+	
+}
+.text{
+	
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+}
+.signin_btn{
+	margin-top:30px;
+	border-style:solid;
+	border-color: #ffffff;
+	border-width:1px;
+	border-radius:3px;
+	color:#ffffff;
+	font-weight:bolder;
+	
+}
+.user_container3{
+	text-align: center;
+	position: relative;
+	float:right;
+	padding-top:20px;
+	padding-right: 95px;
+	
+}
+.login_container img{
+	margin:30px 55px;
+	display: block;
+}
+.login_container input{
+	margin:10px auto;
+	display: block;
+}

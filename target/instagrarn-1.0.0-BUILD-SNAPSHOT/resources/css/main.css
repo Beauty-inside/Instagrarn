@@ -1,0 +1,291 @@
+@charset "UTF-8";
+
+/* css초기화 */
+*{margin:0; padding:0;font-style: inherit;}
+li{ list-style:none; }
+a{ text-decoration:none; }
+
+/* nav스타일 */
+nav{text-align: center;
+	margin: 0 auto;
+	padding-top:13px;
+	padding-bottom:13px;
+	width:100%;
+	height:28px;
+	overflow:hidden;
+	background-color: #FFFFFF;
+	position:fixed;
+	top:0%;
+	border-bottom-style:solid;
+	border-bottom-color:#DBDBDB;
+	border-bottom-width:1px;
+	}
+	
+nav .nav_title{
+	position:relative;
+	float:left;
+	left:5%;
+}
+
+nav .nav_search{
+	position:relative;
+	float:left;
+	left:28%;
+	height:28px;
+	width:220px;
+	color:#8E8E8E;
+	background-color: #FAFAFA;
+	border-radius:5px;
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;}
+
+nav .nav_menu{
+	position:relative;
+	float:right;
+	right:3%;
+	letter-spacing: 3px;
+}
+
+/* 메인 */
+main{
+	margin: 55px auto;
+	background-color: #FAFAFA;
+	padding-top:25px;
+	padding-left:10px;/* 삭제 예정 */
+	padding-right:10px;
+	
+}
+main div.contain{
+	width:940px;
+	height:100%;
+	margin:1px auto;
+	overflow: hidden;
+}
+
+main div.article{
+	float:left;
+	width:618px;
+	height:925px;
+	background-color: #FFFFFF;
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+}
+
+.header_title{
+	height:60px;
+	background-color: #FFFFFF;
+	border-bottom-style:solid;
+	border-bottom-color: #DBDBDB;
+	border-width:1px;
+	overflow:hidden;
+}
+.post_icon{
+	padding:15px;
+	float:left;
+}
+.post_name{
+	font-color:#484848;
+	font-size:13px;
+	font-weight:bold;
+	padding-top:19px;
+	float:left;
+}
+.post_sub_action{
+	padding:15px;
+	float:right;
+}
+.post_img{
+	height:610px;
+	background-color: #FFFFFF;
+	border-bottom-style:solid;
+	border-bottom-color: #DBDBDB;
+	border-width:1px;
+	overflow:hidden;
+	position: relative;
+}
+#imgloc{
+
+}
+
+.left_btn{
+	float:right;
+	position: absolute;
+	left:10px;
+	top:300px;
+	border-radius: 70%;
+}
+.right_btn{
+	float:right;
+	position: absolute;
+	left:580px;
+	top:300px;
+	border-radius: 70%;
+}
+.post_button{
+	height:45px;
+	padding:2px;
+}
+
+.post_buttons{
+	padding:8px 15px;
+	overflow:hidden;
+}
+
+.post_buttons_left{
+	letter-spacing:8px;
+	float:left;
+}
+.post_button_right{
+	float:right;
+}
+
+.post_like{
+	height:25px;
+	padding:0px 15px;
+	font-size:14px;
+	font-style: inherit;
+}
+.post_content{
+	font-size:12px;
+	padding:2px 15px;
+	overflow: hidden;
+}
+.post_content_header{
+	float:left;
+	padding-right: 5px;
+}
+
+.post_content_header span{
+	font-weight:bold;
+}
+.post_content_more_button{
+	float:left;
+}
+
+.post_comment{
+	height:100px;
+	font-size:12px;
+	padding:2px 15px;
+	overflow: hidden;
+	line-height: 20px;
+}
+.post_comment_headers span{
+	font-weight:bold;
+}
+.post_comment_date{
+	padding-top:6px;
+	font-size: 8px;
+}
+.post_comment_more_button{
+	padding-bottom:5px;
+}
+
+.post_comment_add{
+	padding:16px;
+	height:57px;
+	border-top-style:solid;
+	border-top-color:#DBDBDB;
+	border-top-width:1px;
+}
+
+#post_comment_add_loc{
+	width:550px;
+	height:20px;
+	border-style:none;
+	color:#9D9D9D;
+	font-weight: bold;
+}
+
+#post_comment_add_btn{
+	background-color:inherit;
+	border-style:none;
+	color:#C5E7FD;
+}
+
+/*----------------------------------------------------*/
+main div.sub_menu{
+	float:left;
+	width:290px;
+	height:600px;
+	position:fixed;
+	top:82px;
+	left:65%;
+}
+
+main div.sub_menu .user_info{
+	width:265px;
+	height:37px;
+	border-style:none; /*일부로 안보이게 설정할때만 보이게*/
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+	margin-bottom:10px;
+	overflow: hidden;
+	padding:10px;
+}
+
+.user_info_profile_img{
+	float:left;
+}
+
+.user_info_name_id{
+	font-color:#484848;
+	font-size:13px;
+	margin-left:15px;
+	float:left;
+}
+
+.user_info_id{
+	font-weight:bold;
+}
+
+main div.sub_menu .friend_story{
+	background-color: #FFFFFF;
+	padding:10px;
+	width:270px;
+	height:auto;
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+	margin-bottom:10px;
+}
+
+.friend_story_title{
+	color:#DBDBDB;
+}
+
+.friend_story_contents{
+	padding-top:10px;
+	margin-bottom:15px;
+	font-size: 14px;
+}
+
+main div.sub_menu .friend_recommend{
+	background-color: #FFFFFF;
+	width:290px;
+	height:200px;
+	border-style:solid;
+	border-color: #DDD;
+	border-width:1px;
+	border-radius:3px;
+	margin-bottom:10px;
+}
+
+main div.sub_menu .etc{
+	width:290px;
+	height:55px;
+	margin-bottom:10px;
+	font-style: inherit;
+	font-size: 5px;
+}
+
+main div.sub_menu .end{
+	width:290px;
+	height:15px;
+	font-style: inherit;
+	font-size: 5px;
+}
