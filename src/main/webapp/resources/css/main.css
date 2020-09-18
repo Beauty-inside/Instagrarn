@@ -63,7 +63,7 @@ main div.contain{
 	overflow: hidden;
 }
 
-main div.article{
+main div .article{
 	float:left;
 	width:618px;
 	height:925px;
@@ -72,6 +72,7 @@ main div.article{
 	border-color: #DBDBDB;
 	border-width:1px;
 	border-radius:3px;
+	margin-bottom: 60px;
 }
 
 .header_title{
@@ -105,9 +106,6 @@ main div.article{
 	border-width:1px;
 	overflow:hidden;
 	position: relative;
-}
-#imgloc{
-
 }
 
 .left_btn{
