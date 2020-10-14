@@ -10,7 +10,7 @@
 	
 	<script type="text/javascript">
 		function post(){
-			var f = document.form;
+			var f = document.f;
 			
 			var file = f.file.value;
 			var content = f.content.value.trim();
@@ -27,12 +27,12 @@
 <body>
 
 <jsp:include page="../header.jsp"/>
-<form action="upload" name="form" method="post" enctype="multipart/form-data">
+<form action="upload" name="f" method="post" enctype="multipart/form-data">
 <main class="page" name="page">
 	<div class="main">
 		<div class="post_img">
 			<div class="post_img_text">
-				<input type="file" name="file" id="file" style="display:block"/>
+				<input type="file" name="file" id="file" style="display:none"/>
 				<img src="${ pageContext.request.contextPath }/resources/images/plus.png" style="width:60px;height:60px;margin-bottom:28px" alt="Home"
 				onclick="onclick=document.all.file.click();">
 				<div class="text1">사진 파일을 끌어다 놓으세요</div>

@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,10 @@ public class UserService {
 	public UserVO signin(UserVO vo) {
 		UserVO login_vo = user_dao.select_one(vo);
 		return login_vo;
+	}
+
+	public UserVO select_id(int user_idx) {
+		UserVO uservo = user_dao.select(user_idx);
+		return uservo;
 	}
 }

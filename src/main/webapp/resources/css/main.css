@@ -54,7 +54,7 @@ main{
 	padding-top:25px;
 	padding-left:10px;/* 삭제 예정 */
 	padding-right:10px;
-	
+
 }
 main div.contain{
 	width:940px;
@@ -273,12 +273,66 @@ main div.sub_menu .friend_recommend{
 	margin-bottom:10px;
 }
 
+main div.sub_menu .friend_recommend li{
+	font-size:10px;
+	color:#8e8e8e;
+	margin-top: 8px;
+	margin-left: 12px;
+}
+main div.sub_menu .friend_recommend li .recommend_id{
+	font-size:12px;
+	font-weight: 600;
+	color:black;
+}
+main div.sub_menu .friend_recommend li .recommend_follow{
+	font-size:12px;
+	font-weight: 600;
+	color:#0095f6;
+	margin-left: 125px;
+}
+main div.sub_menu .recommend_follow:LINK{
+	text-decoration: none; color:#0095f6;
+}
+main div.sub_menu .recommend_follow:VISITED{
+	text-decoration: none; color:#0095f6;
+}
+main div.sub_menu .recommend_follow:ACTIVE{
+	text-decoration: none; color:#0095f6;
+}
+main div.sub_menu .recommend_follow:HOVER{
+	text-decoration: none; color:#0095f6;
+}
+main div.sub_menu .friend_recommend .friend_recommend_title{
+	font-size:14px;
+	font-weight:bold;
+	color: #8E8E8E;
+	line-height: 18px;
+	margin-bottom: 5px;
+}
+main div.sub_menu .friend_recommend .friend_recommend_title .more_view_recommend{
+	margin-left:100px;
+	font-size: 12px;
+    line-height: 14px;
+}
+main div.sub_menu  .more_view_recommend:LINK{
+	text-decoration: none; color:black;
+}
+main div.sub_menu  .more_view_recommend:VISITED{
+	text-decoration: none; color:black;
+}
+main div.sub_menu  .more_view_recommend:ACTIVE{
+	text-decoration: none; color:black;
+}
+main div.sub_menu  .more_view_recommend:HOVER{
+	text-decoration: none; color:black;
+}
 main div.sub_menu .etc{
 	width:290px;
 	height:55px;
 	margin-bottom:10px;
 	font-style: inherit;
 	font-size: 5px;
+	color:rgba(var(--edc,199,199,199),1);
 }
 
 main div.sub_menu .end{
@@ -286,4 +340,5 @@ main div.sub_menu .end{
 	height:15px;
 	font-style: inherit;
 	font-size: 5px;
+	color:rgba(var(--edc,199,199,199),1);
 }

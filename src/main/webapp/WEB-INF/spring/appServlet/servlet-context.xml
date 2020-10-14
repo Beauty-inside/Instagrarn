@@ -46,5 +46,7 @@
 	<beans:bean class="com.bis.instagrarn.ProfileController"/>
 	<beans:bean id="profileService" class="service.ProfileService"/>
 	<beans:bean id="profileDAO" class="dao.ProfileDAO"/>
+	<beans:bean id="replyService" class="service.ReplyService"/>
+	<beans:bean id="replyDAO" class="dao.ReplyDAO"/>
 </beans:beans>
   

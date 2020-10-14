@@ -64,7 +64,18 @@ nav .nav_menu{
 	right:4%;
 	letter-spacing: 8px;
 }
-
+.nav_alert_news{
+	position:fixed;
+	right:13%;
+	top:48px;
+	z-index:5;
+	background-color:#FFFFFF;
+	box-shadow: 0px 0px 5px 1px #DBDBDB;
+	width: 500px;
+	height: 360px;
+	border-radius: 5px;
+	display: none;
+}
 .profile{
 	width:230px;
 	height:166px;

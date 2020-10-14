@@ -79,3 +79,6 @@ body{
 	margin:10px auto;
 	display: block;
 }
+
+.user_img{text-align:center;}
+.user_img_div{width:100%}

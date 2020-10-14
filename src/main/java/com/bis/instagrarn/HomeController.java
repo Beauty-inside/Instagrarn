@@ -1,20 +1,21 @@
 package com.bis.instagrarn;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Common;
 import service.ProfileService;
@@ -22,9 +23,6 @@ import service.UserService;
 import vo.ProfileVO;
 import vo.UserVO;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 	
@@ -36,42 +34,202 @@ public class HomeController {
 	
 	@Autowired
 	ProfileService profileService;
+
+	@Autowired
+	HttpServletRequest request;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model, @RequestParam(value="page", defaultValue="0")int page) {
-		int user_idx = 1;
-		List<ProfileVO> list = profileService.select_post(user_idx, page);
-		model.addAttribute("list", list);
+	public String main(Model model, HttpSession session) {
+		int user_idx = 2;
+		List<ProfileVO> list = profileService.select_post(user_idx, 0);
+		List<Integer> likelist = profileService.select_like(user_idx);
+		List<UserVO> recommend_list = profileService.select_recommend(user_idx);
+		//for(int i = 0; i<list.size(); i++) {
+		//List<UserVO> userlist = new ArrayList<UserVO>();
+
+		for(int i = 0; i<list.size(); i++) {	
+			UserVO uservo = userService.select_id(list.get(i).getUser_idx());
+			userlist.add(uservo);
+
+			if(likelist.contains(list.get(i).getBoard_idx())) {
+				list.get(i).setIsLike(true);
+			} else {
+				list.get(i).setIsLike(false);
+			}
+			List<List<String>> replylist = profileService.select_reply(list.get(i).getBoard_idx());
+			list.get(i).setReplys(replylist);
+		}
+		
+		int user_info_idx = 0;
+		String user_info_id = "";
+		String user_info_fullname = "";
+		Cookie[] cookies = request.getCookies();
+		if(cookies == null) {
+			return Common.User.VIEW_PATH + "login.jsp";
+		}else {
+			for (Cookie cookie : cookies) {
+				if("rememberSession".equals(cookie.getName())) {
+
+					session = request.getSession();
+					UserVO session_info = (UserVO)session.getAttribute(cookie.getValue());
+					if(session_info == null) {//세션이 없을때 오류 방지  == > 가입하면 바로 로그인 될 때 세션없음 가입에 세션 추가기능 넣어주면 될 듯
+						return Common.User.VIEW_PATH + "login.jsp";
+					}else {
+						user_info_id = session_info.getId();
+						user_info_fullname = session_info.getFullname();
+						user_info_idx = session_info.getIdx();
+					}
+				}
+			}
+		}
+
+		model.addAttribute("user_info_id", user_info_id);
+		model.addAttribute("user_info_fullname", user_info_fullname);
+		model.addAttribute("user_info_idx", user_info_idx);
+		
+		model.addAttribute("loadlist", list);
+		model.addAttribute("likelist", likelist);
+		model.addAttribute("recommendlist", recommend_list);
+		model.addAttribute("userlist", userlist);
 		return Common.Board.VIEW_PATH + "main.jsp";
 	}
 	
 	@RequestMapping(value = "/loadpost", method = RequestMethod.GET)
-	public String loadpost(Model model, @RequestParam(value="page", defaultValue="0")int page) {
-		int user_idx = 1;
+	@ResponseBody
+	public List<ProfileVO> loadpost(Model model, @RequestParam(value="page", defaultValue="1")int page) {
+		int user_idx = 2;
 		List<ProfileVO> list = profileService.select_post(user_idx, page);
-		model.addAttribute("list", list);
-		return Common.Board.VIEW_PATH + "main.jsp";
+		List<Integer> likelist = profileService.select_like(user_idx);
+		for(int i = 0; i<list.size(); i++) {
+			if(likelist.contains(list.get(i).getBoard_idx())) {
+				list.get(i).setIsLike(true);
+			} else {
+				list.get(i).setIsLike(false);
+			}
+			List<List<String>> replylist = profileService.select_reply(list.get(i).getBoard_idx());
+			list.get(i).setReplys(replylist);
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/loadalert", method = RequestMethod.GET)
+	@ResponseBody
+	public List<List<String>> loadalert(Model model, int user_idx) {
+
+		List<List<String>> loadAlertList = profileService.loadalert(user_idx);
+		return loadAlertList;
+	}
+	
+	@RequestMapping(value = "/add_reply", method = RequestMethod.GET)
+	@ResponseBody
+	public int add_reply(Model model, int board_idx, String reply) {
+		int user_idx = 2;
+		int from_user_idx = user_idx;
+		int to_user_idx = 1;
+		String alert_type = "reply";
+		profileService.add_reply(board_idx, user_idx, reply);
+		profileService.add_alert(from_user_idx, to_user_idx, alert_type);
+		return board_idx;
+	}
+	
+	@RequestMapping(value = "/clickLike", method = RequestMethod.GET)
+	@ResponseBody
+	public int clickLike(Model model, int board_idx) {
+		int user_idx = 2;
+		int from_user_idx = user_idx;
+		int to_user_idx = 1;
+		String alert_type = "like";
+		profileService.clicked_like(board_idx, user_idx);
+		profileService.add_alert(from_user_idx, to_user_idx, alert_type);
+		return board_idx;
+	}
+	
+	@RequestMapping(value = "/clickUnLike", method = RequestMethod.GET)
+	@ResponseBody
+	public int clickUnLike(Model model, int board_idx) {
+		int user_idx = 2;
+		int res = profileService.unclicked_like(board_idx, user_idx);
+		return board_idx;
 	}
 	
 	@RequestMapping(value = {"/", "/loginpage"})
 	public String loginpage() {
+		
 		return Common.User.VIEW_PATH + "login.jsp";
 	}
 	
+	@RequestMapping("/cookie_check")
+	@ResponseBody
+	public String first() {
+		Cookie[] cookies = request.getCookies();
+		String user_id_info = "";
+		if(cookies == null) {
+			return Common.User.VIEW_PATH + "login.jsp";
+		}else {
+			for (Cookie cookie : cookies) {
+				if("rememberSession".equals(cookie.getName())) {
+
+					HttpSession session = request.getSession();
+					UserVO session_info = (UserVO)session.getAttribute(cookie.getValue());
+					if(session_info == null) {//세션이 없을때 오류 방지  == > 가입하면 바로 로그인 될 때 세션없음 가입에 세션 추가기능 넣어주면 될 듯
+		               return "";
+		            }else {
+		            	user_id_info = session_info.getId();
+		            }
+				}
+			}
+		}
+		System.out.println(user_id_info);
+		return user_id_info;
+	}
+	
 	@RequestMapping(value = "/login")
-	public String login(UserVO vo) {
+	public String login(UserVO vo, HttpServletResponse response) {
+
 		UserVO login_vo = userService.signin(vo);
 		if( login_vo != null ) {
+			
+			//로그인 성공할때만 전에 저장해둔 정보들 지우기
+			Cookie[] cookies = request.getCookies();
+			String user_id_info = "";
+			if(cookies == null) {
+				return Common.User.VIEW_PATH + "login.jsp";
+			}else {
+				for (Cookie cookie : cookies) {
+					if("rememberSession".equals(cookie.getName())) {
+
+						HttpSession session = request.getSession();
+						session.removeAttribute(cookie.getValue());
+						cookie.setValue(null);
+					}
+				}
+			}
+			
 			int idx = login_vo.getIdx();
 			String fullname = login_vo.getFullname();
 			String id = login_vo.getId();
 			System.out.println(fullname+"님 로그인 성공");
+			
+			//그러고 나서 새로운 로그인 정보 세션저장
+			HttpSession session = request.getSession();
+			
+			Common com = new Common();
+			
+			String sessionKey = com.sessonKey();
+
+			session.setAttribute(sessionKey, login_vo);
+			
+			Cookie cookie= new Cookie("rememberSession", sessionKey);
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60*24*7);//일주일간 가게
+			response.addCookie(cookie);
+			
 		} else {
 			System.out.println("로그인 실패");
 		}
-		
-		return Common.Board.VIEW_PATH + "main.jsp";
+		return "redirect:main";
 	}
+
 	
 	@RequestMapping(value =  "/signuppage")
 	public String signuppage() {
@@ -82,7 +240,8 @@ public class HomeController {
 	public String signup(UserVO vo) {
 		System.out.println(vo.getFullname());
 		int res = userService.signup(vo);
-		return Common.Board.VIEW_PATH + "main.jsp";
+		
+		return Common.User.VIEW_PATH + "login.jsp";
 	}
 	
 }
