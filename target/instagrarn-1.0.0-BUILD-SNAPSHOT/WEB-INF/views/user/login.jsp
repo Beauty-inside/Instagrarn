@@ -20,7 +20,7 @@
 				var data = xhr.responseText;
 			
 				if(data == ""){
-					alert("로그인 정보 없음");
+
 				}else{
 					document.f.style.display = 'none';
 					document.f2.style.display = 'block';
@@ -35,6 +35,23 @@
 			f.submit();
 		}
 	</script>
+	
+	<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script>
+		$(function() {
+		    $("#test").on("keyup", function() {
+		        var flag = true;
+		        flag = $(this).val().length > 0 ? false : true;
+		        $("#btn-submit").attr("disabled", flag);
+		        if (flag == true){
+		        	document.getElementById("btn-submit").style.backgroundColor = '#B2DFFC';
+		        } else {
+		        	document.getElementById("btn-submit").style.backgroundColor = '#0095f6';
+		        }
+		        	
+		    });
+		});
+	</script>
 
 </head>
 <body>
@@ -45,8 +62,17 @@
 				<img src="${ pageContext.request.contextPath }/resources/images/insta_title.png" alt="Home" height="60">
 				<form action="login" method="post" name="f">
 					<input name="phone" class="text" style="width:270px;height:37px; background-color: #FAFAFA;" placeholder="전화번호, 사용자 이름 또는 이메일">
-					<input type="password" name="pwd" class="text" style="width:270px;height:37px; background-color: #FAFAFA;" placeholder="비밀번호">
-					<input class="signin_btn" type="button" style="width:270px;height:30px; background-color: #B2DFFC;" value="로그인" onclick="send();">
+					<input type="password" id="test" name="pwd" class="text" style="width:270px;height:37px; background-color: #FAFAFA;" placeholder="비밀번호">
+					<input class="signin_btn" id="btn-submit" type="button" style="width:270px;height:30px; background-color: #B2DFFC;" value="로그인" onclick="send();">
+					<div class="login_part_box">
+						<div class="login_part_line"></div>
+						<div class="login_part_or">또는</div>
+						<div class="login_part_line"></div>
+					</div>
+					<div class="facebook_login_title">
+						Facebook으로 로그인
+					</div>
+					<a class="lose_pw" href="#">비밀번호를 잊으셨나요?</a>
 				</form>
 				<form name="f2" style="display:none;">
 					<div class="user_img_div"><img src="${ pageContext.request.contextPath }/resources/images/IconME.png" alt="Home" height="100" class="user_img"></div>

@@ -57,60 +57,6 @@
 				'</div>'+
 			'</div>'+
 		'</article>'+
-	'</div>'+
-
-	'<div class="sub_menu">'+
-		'<div class="user_info">'+
-			'<div class="user_info_profile_img">'+
-				'<a href="#"><img src="resources/images/IconME.png" alt="myInfo">'+
-				'</a>'+
-			'</div>'+
-			'<div class="user_info_name_id">'+
-				'<span class="user_info_id">95wooseong</span> <br>우성'+
-			'</div>'+
-		'</div>'+
-
-		'<div class="friend_story">'+
-			'<div class="friend_story_title">스토리</div>'+
-			'<div class="friend_story_contents">회원님이 팔로우하는 사람들의 스토리가 여기에'+
-				'표시됩니다.</div>'+
-		'</div>'+
-
-		'<div class="friend_recommend">'+
-			'<div>'+
-				'<div>'+
-					'회원님을 위한 추천 <a href="#">모두 보기</a>'+
-				'</div>'+
-			'</div>'+
-
-			'<div>'+
-				'<div>'+
-					'아이디<br> 회원님을 팔로우 합니다'+
-				'</div>'+
-				'<a href="#">팔로우</a>'+
-			'</div>'+
-
-			'<div>'+
-				'<div>'+
-					'아이디<br> 회원님을 팔로우 합니다'+
-				'</div>'+
-				'<a href="#">팔로우</a>'+
-			'</div>'+
-
-			'<div>'+
-				'<div>'+
-					'아이디<br> 회원님을 팔로우 합니다'+
-				'</div>'+
-				'<a href="#">팔로우</a>'+
-			'</div>'+
-
-		'</div>'+
-
-		'<div class="etc">홈페이지 소개, 도움말, API, 개인정보처리방침, 약관, 위치, 해시태그,'+
-			'언어</div>'+
-
-		'<div class="end">저작권그거</div>'+
-
 	'</div>'
 		return addones;
 }
