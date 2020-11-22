@@ -22,7 +22,6 @@
 				&& (window.innerHeight + window.scrollY) - 40 <= document.body.offsetHeight) {
 			//여기서 Ajax로 컨트롤러로 들어가 데이터를 가져와 정보 넣어주기
 			load_post_info(page_count);
-			
 		}
 	};
 	//포스터로드
@@ -261,7 +260,7 @@
 						
 						<ul class="friend_recommend">
 							<div class="friend_recommend_title">
-								회원님을 위한 추천 <a class="more_view_recommend" href="#">모두 보기</a>
+								회원님을 위한 추천 <a class="more_view_recommend" href="/instagrarn/seeallfollow">모두 보기</a>
 							</div>
 							
 							<c:forEach var="ones" items="${recommendlist}">

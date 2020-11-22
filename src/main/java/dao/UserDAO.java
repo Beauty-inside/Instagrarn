@@ -98,6 +98,31 @@ public class UserDAO {
 		
 		return null;
 	}
+	
+	public UserVO select_one_google( UserVO vo ) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String phone = vo.getPhone();
+
+		String sql = "select * from Insta_user where phone='" + phone + "''";
+		
+		List<UserVO> loginlist = jdbcTemplate.query(sql, new RowMapper<UserVO>() {
+			@Override
+			public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				UserVO vo = new UserVO(
+						rs.getInt("idx"),
+						rs.getString("full_name"),
+						rs.getString("id")
+						);
+				return vo;
+			}
+		});
+		
+		if(loginlist.size() != 0) {
+			return loginlist.get(0);
+		}
+		
+		return null;
+	}
 
 	public UserVO select(int user_idx) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

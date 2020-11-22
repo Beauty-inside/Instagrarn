@@ -60,7 +60,8 @@ public class ProfileDAO {
 	public List<ProfileVO> select_post(int user_idx, int page) {
 		int set_page = page * 3;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
-		String sql = "select * from Insta_board_view order by board_idx desc limit " + set_page + ", 3";
+		//select * from InstagrarnDB.Insta_board_view where user_idx in (select following_idx from InstagrarnDB.Insta_follow where follower_idx = 1) order by board_idx desc limit 0, 3;
+		String sql = "select * from Insta_board_view where user_idx in ((select following_idx from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
 		
 		List<ProfileVO> list =jdbcTemplate.query(sql, new RowMapper<ProfileVO>() {
 
@@ -102,6 +103,27 @@ public class ProfileDAO {
 	}
 	
 	public List<UserVO> select_recommend(int user_idx) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
+		String sql = "select idx, full_name, id from Insta_user where idx !=" +user_idx+ " and idx not in (select following_idx from Insta_follow where follower_idx = "+ user_idx +") order by idx desc";
+		
+		List<UserVO> list =jdbcTemplate.query(sql, new RowMapper<UserVO>() {
+
+			@Override
+			public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				UserVO list = new UserVO(
+						rs.getInt("idx"),
+						rs.getString("full_name"),
+						rs.getString("id"));
+				
+				return list;
+			}
+			
+		});
+		return list;
+	}
+	
+	public List<UserVO> select_not_follow(int user_idx) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
 		String sql = "select idx, full_name, id from Insta_user where idx !=" +user_idx+ " and idx not in (select following_idx from Insta_follow where follower_idx = "+ user_idx +") order by idx desc";

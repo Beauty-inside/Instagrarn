@@ -26,6 +26,10 @@ public class UserService {
 		return res;
 	}
 
+	public UserVO signinGoogle(UserVO vo) {
+		UserVO login_vo = user_dao.select_one_google(vo);
+		return login_vo;
+	}
 	public UserVO signin(UserVO vo) {
 		UserVO login_vo = user_dao.select_one(vo);
 		return login_vo;

@@ -10,6 +10,7 @@
 
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/initscroll.js?ver=1"></script>
+
 <script type="text/javascript">
 
 	var num = 1;
@@ -21,7 +22,6 @@
 				&& (window.innerHeight + window.scrollY) - 40 <= document.body.offsetHeight) {
 			//여기서 Ajax로 컨트롤러로 들어가 데이터를 가져와 정보 넣어주기
 			load_post_info(page_count);
-			
 		}
 	};
 	//포스터로드
@@ -64,7 +64,6 @@
 		var param = "board_idx="+board_idx+"&reply="+reply_content;
 		sendRequest(url, param, resultClickAddreply, "GET");
 	}
-	
 	function resultClickAddreply(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var data = xhr.responseText;
@@ -80,7 +79,6 @@
 
 	//좋아요 버튼 Ajax
 	function like(board_idx){
-
 		var btn_like = document.getElementById("btn_like_"+board_idx).src;
 		var param = "board_idx=" + board_idx;
 		if(btn_like.includes('_click')){
@@ -90,7 +88,6 @@
 		}
 		sendRequest(url, param, resultClickLike, "GET");
 	}
-	
 	function resultClickLike(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var data = xhr.responseText;
@@ -124,6 +121,26 @@
 		}
 		document.getElementById("imgloc").src = path + num + ".jpg";
 	}
+	
+	//---------------------------------------------
+	function click_follow(follow_id){
+		var url = "follow";
+		var param = "follow_id=" + follow_id;
+		sendRequest(url, param, resultFollow, "GET");
+	}
+	
+	function resultFollow(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			/* 팔로우 버튼 클릭 시 화면 어떻게 할지 새로고침 또는 팔로우 한 사람 지우기 구현 */
+		}
+	}
+	
+	function click_follow_send(follow_id){
+		var f = document.f;
+		f.follow_idx.value = ""+follow_id;
+		f.submit();
+	}
+	//---------------------------------------------
 </script>
 
 </head>
@@ -236,7 +253,11 @@
 							<div class="friend_story_contents">회원님이 팔로우하는 사람들의 스토리가 여기에
 								표시됩니다.</div>
 						</div>
-
+						
+						<form action="follow" method="post" name="f">
+							<input type="hidden" name="follow_idx" id="follow_idx" value="">
+						</form>
+						
 						<ul class="friend_recommend">
 							<div class="friend_recommend_title">
 								회원님을 위한 추천 <a class="more_view_recommend" href="#">모두 보기</a>
@@ -244,8 +265,8 @@
 							
 							<c:forEach var="ones" items="${recommendlist}">
 								<li>
-									<span class="recommend_id">${ones.id}</span><br> 회원님을 팔로우 합니다
-									<a class="recommend_follow" href="#">팔로우</a>
+									<span class="recommend_id">${ones.id}</span><br> 회원님을 팔로우 합니다<!-- /instagrarn/follow?follow_id=${ones.idx} -->
+									<a class="recommend_follow" href="javascript:void(0);" onclick="click_follow_send(${ones.idx});">팔로우</a>
 								</li>
 							</c:forEach>
 						</ul>
