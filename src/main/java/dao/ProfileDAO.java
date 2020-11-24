@@ -62,7 +62,7 @@ public class ProfileDAO {
 		int set_page = page * 3;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
 		//select * from InstagrarnDB.Insta_board_view where user_idx in (select following_idx from InstagrarnDB.Insta_follow where follower_idx = 1) order by board_idx desc limit 0, 3;
-		String sql = "select * from Insta_board_view where user_idx in ((select following_idx from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
+		String sql = "select * from Insta_board_view where user_idx in ((select group_concat(following_idx) from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
 		
 		List<ProfileVO> list =jdbcTemplate.query(sql, new RowMapper<ProfileVO>() {
 
