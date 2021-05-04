@@ -4,5 +4,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	
+	<!-- Google 소셜 로그인 연결 설정 -->
+    <bean id="googleOAuth2Template"
+        class="org.springframework.social.google.connect.GoogleOAuth2Template">
+        <constructor-arg
+            value="668758563212-mf1ph6th3sv8gte51r7po319gp09c7rm.apps.googleusercontent.com" />
+        <constructor-arg value="6Z2tYHZpqe7rn7CEScrv-dui" />
+    </bean>
+ 
+ 
+    <bean id="googleOAuth2Parameters"
+        class="org.springframework.social.oauth2.OAuth2Parameters">
+        <property name="scope"
+            value="profile"></property>
+        <property name="redirectUri"
+            value="http://localhost:8090/login/after" />
+    </bean>
+ 
+    <bean id="authInfo" class="vo.AuthInfo">
+        <constructor-arg
+            value="668758563212-mf1ph6th3sv8gte51r7po319gp09c7rm.apps.googleusercontent.com" />
+        <constructor-arg value="6Z2tYHZpqe7rn7CEScrv-dui" />
+ 
+    </bean>
 </beans>
