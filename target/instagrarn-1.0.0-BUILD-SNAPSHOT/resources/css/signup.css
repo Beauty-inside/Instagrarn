@@ -6,27 +6,116 @@ li{ list-style:none; }
 a{ text-decoration:none; }
 body{
 	background-color: #FAFAFA;
-
 }
-
+.facebook_login_title{
+	background-color: rgba(var(--d69,0,149,246),1);
+	color: rgba(var(--eca,255,255,255),1);
+	border-radius: 4px;
+	width:260px;
+	font-size: 14px;
+    line-height: 18px;
+	margin:15px 35px;
+    padding: 5px 9px;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    cursor: pointer;
+    text-align: center;
+    text-transform: inherit;
+    font-weight:bold;
+}
+.login_part_line{
+	flex-shrink: 1;
+	width: 105px;
+	height: 1.2px;
+	background-color: rgba(var(--b38,219,219,219),1);
+	position: relative;
+    top: -4px;
+    flex-grow: 1;
+	display: inline-block;
+	margin: 0;
+    padding: 0;
+}
+.login_part_or{
+	margin:7px;
+	font-weight:bold;
+	display: inline-block;
+	color:rgba(var(--f52,142,142,142),1);
+	font-size: 13px;
+}
+.login_part_box{
+	height:15px;
+	margin: 10px 40px 18px;
+	position: relative;
+}
+.comment_induction{
+	color: rgba(var(--f52,142,142,142),1);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+}
 .user_container{
 	border-style:solid;
 	border-color: #DBDBDB;
 	border-width:1px;
 	border-radius:3px;
-	margin: 80px auto;
-	height:540px;
+	margin: 80px auto 10px;
+	height:600px;
 	width:350px;
 	background-color: #fff;
 	text-align: center;
 }
-
+.user_container5{
+	color: rgba(var(--i1d,38,38,38),1);
+    font-size: 14px;
+    text-align: center;
+	margin: 20px auto;
+	
+}
+.user_container4{
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+	border-radius:3px;
+	margin: auto;
+	height:60px;
+	width:350px;
+	background-color: #fff;
+	text-align: center;
+}
+.sign_up_container{
+	color: rgba(var(--i1d,38,38,38),1);
+    font-size: 14px;
+    margin: 20px;
+    text-align: center;
+}
+.sign_up_container a{
+	color: rgba(var(--d69,0,149,246),1);
+	border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    font-weight: 600;
+}
+.info_warn{
+	color: rgba(var(--f52,142,142,142),1);
+    font-size: 12px;
+    line-height: 16px;
+    margin: 10px 40px;
+    text-align: center;
+}
 .text{
 	border-style:solid;
 	border-color: #DBDBDB;
 	border-width:1px;
 	border-radius:3px;
 	margin-top: 3px;
+    color: rgba(var(--f52,142,142,142),1);
+    padding-left:5px;
+    font-size: 12px;
+    height: 36px;
+    left: 8px;
+    line-height: 36px;
 }
 .signin_btn{
 	margin-top:30px;

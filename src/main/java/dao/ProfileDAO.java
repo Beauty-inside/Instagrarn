@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import vo.FollowVO;
 import vo.ProfileVO;
 import vo.UserVO;
 
@@ -36,7 +37,7 @@ public class ProfileDAO {
 
 	public List<ProfileVO> select(int user_idx) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "select * from Insta_board where user_idx = " + user_idx + " order by board_idx desc";
+		String sql = "select * from Insta_board_view where user_idx = " + user_idx + " order by board_idx desc";
 		
 		List<ProfileVO> list =jdbcTemplate.query(sql, new RowMapper<ProfileVO>() {
 
@@ -45,6 +46,7 @@ public class ProfileDAO {
 				ProfileVO list = new ProfileVO(
 						rs.getInt("board_idx"),
 						rs.getInt("user_idx"),
+						rs.getString("id"),
 						rs.getString("img"),
 						rs.getString("content"),
 						rs.getString("area"),
@@ -59,7 +61,8 @@ public class ProfileDAO {
 	public List<ProfileVO> select_post(int user_idx, int page) {
 		int set_page = page * 3;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
-		String sql = "select * from Insta_board order by board_idx desc limit " + set_page + ", 3";
+		//select * from InstagrarnDB.Insta_board_view where user_idx in (select following_idx from InstagrarnDB.Insta_follow where follower_idx = 1) order by board_idx desc limit 0, 3;
+		String sql = "select * from Insta_board_view where user_idx in ((select group_concat(following_idx) from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
 		
 		List<ProfileVO> list =jdbcTemplate.query(sql, new RowMapper<ProfileVO>() {
 
@@ -68,6 +71,7 @@ public class ProfileDAO {
 				ProfileVO list = new ProfileVO(
 						rs.getInt("board_idx"),
 						rs.getInt("user_idx"),
+						rs.getString("id"),
 						rs.getString("img"),
 						rs.getString("content"),
 						rs.getString("area"),
@@ -102,7 +106,28 @@ public class ProfileDAO {
 	public List<UserVO> select_recommend(int user_idx) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
-		String sql = "select idx, full_name, id from Insta_user where idx !=" +user_idx+ " order by idx desc";
+		String sql = "select idx, full_name, id from Insta_user where idx !=" +user_idx+ " and idx not in (select following_idx from Insta_follow where follower_idx = "+ user_idx +") order by idx desc";
+		
+		List<UserVO> list =jdbcTemplate.query(sql, new RowMapper<UserVO>() {
+
+			@Override
+			public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				UserVO list = new UserVO(
+						rs.getInt("idx"),
+						rs.getString("full_name"),
+						rs.getString("id"));
+				
+				return list;
+			}
+			
+		});
+		return list;
+	}
+	
+	public List<UserVO> select_not_follow(int user_idx) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
+		String sql = "select idx, full_name, id from Insta_user where idx !=" +user_idx+ " and idx not in (select following_idx from Insta_follow where follower_idx = "+ user_idx +") order by idx desc";
 		
 		List<UserVO> list =jdbcTemplate.query(sql, new RowMapper<UserVO>() {
 
@@ -209,6 +234,21 @@ public class ProfileDAO {
 
 		int res = jdbcTemplate.update("DELETE FROM Insta_likes WHERE user_idx = ? AND board_idx = ?", user_idx, board_idx);
 		
+		return res;
+	}
+
+
+	public int follower(int user_info_idx) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int res = jdbcTemplate.queryForInt("select count(*) from Insta_follow where following_idx = " + user_info_idx);
+		return res;
+	}
+	
+	public int follow(int user_info_idx) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int res = jdbcTemplate.queryForInt("select count(*) from Insta_follow where follower_idx = " + user_info_idx);
 		return res;
 	}
 

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import common.Common;
 import service.ProfileService;
 import service.UserService;
+import vo.FollowVO;
 import vo.ProfileVO;
 import vo.UserVO;
 
@@ -72,19 +73,27 @@ public class ProfileController {
 		System.out.println("user_idx : " + user_idx + "user_info_idx : " + user_info_idx);
 		if(user_idx == user_info_idx) {
 			List<ProfileVO> list = profileService.select(user_info_idx);
+			int follower = profileService.followerselect(user_info_idx); 
+			int follow = profileService.followselect(user_info_idx); 
 			
 			model.addAttribute("post_num", list.size());
 			model.addAttribute("list", list);
+			model.addAttribute("follower", follower);
+			model.addAttribute("follow", follow);
 			
 			return Common.Profile.VIEW_PATH + "my_profile.jsp";
 		}else {
 				List<ProfileVO> list_profile = profileService.select(user_idx);
 				UserVO uservo = userService.select_id(user_idx);
-		
+				int follower = profileService.followerselect(user_idx); 
+				int follow = profileService.followselect(user_idx); 
+				
 				model.addAttribute("post_num", list_profile.size());
 				model.addAttribute("list", list_profile);
 				model.addAttribute("user_id", uservo.getId());
 				model.addAttribute("user_full_name", uservo.getFullname());
+				model.addAttribute("follower", follower);
+				model.addAttribute("follow", follow);
 				
 			return Common.Profile.VIEW_PATH + "profile.jsp";
 		}

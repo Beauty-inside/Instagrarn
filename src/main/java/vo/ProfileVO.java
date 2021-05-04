@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileVO {
 	MultipartFile file;
 	private int board_idx, user_idx, like_num;
-	private String img, content, area;
+	private String img, content, area, id;
 	private Boolean isLike;
 	private List replys;
 	
@@ -16,9 +16,10 @@ public class ProfileVO {
 	}
 	
 	
-	public ProfileVO(int board_idx, int user_idx, String img, String content, String area, int like_num) {
+	public ProfileVO(int board_idx, int user_idx, String id, String img, String content, String area, int like_num) {
 		this.board_idx = board_idx;
 		this.user_idx = user_idx;
+		this.id = id;
 		this.img = img;
 		this.content = content;
 		this.area = area;
@@ -26,10 +27,17 @@ public class ProfileVO {
 	}
 	
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public List getReplys() {
 		return replys;
 	}
-
 
 	public void setReplys(List replys) {
 		this.replys = replys;

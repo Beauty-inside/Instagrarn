@@ -5,25 +5,23 @@
 li{ list-style:none; }
 a{ text-decoration:none; }
 
-page{margin: 55px auto; padding-top:25px;}
-
-.main{margin: 60px auto 0; max-width: 935px; width: 100%; margin-top: 55px;  padding-top:30px; padding-right:20px; padding-left:20px;}
+.page{margin: 55px auto; padding-top:25px;max-width: 935px; width: 100%;}
 
 .base{width: 100%; overflow:auto;}
 
 .profile_img_box{ width:290px; height:150px; margin-right:30px; position:relative; float:left;}
 .profile_img{width:150px; height:150px; position:absolute; text-align:center; margin-left:70px; margin-right:70px;}
-.profile_text_box{ width:613px; height:150px; float:left;}
+.profile_text_box{ width:613px; height:180px; float:left;}
 
-.profile_first{ width:100%; height:40px; margin-bottom:20px; padding-top:5px;}
+.profile_first{ width:100%; height:40px; margin-bottom:13px; padding-top:9px;}
 
-.user_id{font-weight:100; font-size: 28px; line-height: 32px; color:#4d4d4d; float:left;}
+.user_info_id{font-weight:100; width:auto; font-size: 28px; line-height: 32px; color:#4d4d4d; float:left;}
 .profile_edit{margin-left:20px; width:94px; height:30px; float:left; display:table;}
 .profile_edit_box{text-align:center; vertical-align:middle; display:table-cell; border-style:solid; border-color:#DBDBDB; border-width:thin; border-radius:4px;}
 .profile_edit_text{box-sizing: border-box; cursor: pointer; font-weight: 600; width: auto; color:black; font-size:14px;}
 .setting{margin-left:5px; width:40px; height:40px; float:left;}
 
-.profile_middle{ width:100%; height:17px; margin-bottom:20px; color: inherit;}
+.profile_middle{ width:100%; height:17px; margin-bottom:22px; color: inherit;}
 
 .post{font-size: 16px; margin-right: 40px; float:left; height:17px;}
 .post_num{color: rgba(var(--i1d,38,38,38),1); font-weight: 600;}

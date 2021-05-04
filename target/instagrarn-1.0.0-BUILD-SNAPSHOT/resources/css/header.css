@@ -89,3 +89,11 @@ nav .nav_menu{
 	border: 0 solid #000;
 	box-shadow:0px 0px 5px 3px #dbdbdb;
 }
+
+#nav_alert_ul>li{
+	margin:11px;
+	border-radius:5px;
+	border-style:solid;
+	border-color: #DBDBDB;
+	border-width:1px;
+}

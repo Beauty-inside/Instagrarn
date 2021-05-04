@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.ProfileDAO;
+import vo.FollowVO;
 import vo.ProfileVO;
 import vo.UserVO;
 
@@ -71,7 +72,15 @@ public class ProfileService {
 		return res;
 	}
 
+	public int followerselect(int user_info_idx) {
+		int res = profile_dao.follower(user_info_idx);
+		return res;
+	}
 
+	public int followselect(int user_info_idx) {
+		int res = profile_dao.follow(user_info_idx);
+		return res;
+	}
 	
 
 }

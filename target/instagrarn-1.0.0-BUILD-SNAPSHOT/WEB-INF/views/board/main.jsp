@@ -9,48 +9,76 @@
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/main.css">
 
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
-<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/initscroll.js"></script>
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/initscroll.js?ver=1"></script>
+
 <script type="text/javascript">
 
 	var num = 1;
 	var path = "${ pageContext.request.contextPath }/resources/images/ex_post_img";
-	
 	var page_count = 1;
+
 	window.onscroll = function(ev) {
 		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight
 				&& (window.innerHeight + window.scrollY) - 40 <= document.body.offsetHeight) {
 			//여기서 Ajax로 컨트롤러로 들어가 데이터를 가져와 정보 넣어주기
 			load_post_info(page_count);
-			function load_post_info(page) {
-				var url = "loadpost";
-				var param = "page=" + page;
-				sendRequest(url, param, resultFn, "GET");
-			}
-			function resultFn() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					var lists = document.getElementById("lists");
-					var data = xhr.responseText;
-					var json = eval(data);
-					page_count++;
-					for (var i = 0; i < json.length; i++) {
-						var board_idx = json[i].board_idx;
-						var user_idx = json[i].user_idx;
-						var img = json[i].img;
-						var content = json[i].content;
-						var area = json[i].area;
-						var like_num = json[i].like_num;
-						var one = document.createElement('li');
-						var ones = addscroll(img, content, like_num);
-						one.innerHTML = ones;
-						lists.appendChild(one);
-					}
-				}
-			}
 		}
 	};
+	//포스터로드
+	function load_post_info(page) {
+		console.log("여기");
+		var url = "loadpost";
+		var param = "page=" + page;
+		sendRequest(url, param, resultFn, "GET");
+	}
+	function resultFn() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var lists = document.getElementById("lists");
+			var data = xhr.responseText;
+			var json = eval(data);
+			page_count++;
+			console.log("여기2");
+			for (var i = 0; i < json.length; i++) {
+				var board_idx = json[i].board_idx;
+				var user_idx = json[i].user_idx;
+				var img = json[i].img;
+				var content = json[i].content;
+				var area = json[i].area;
+				var like_num = json[i].like_num;
+				console.log(data);
+				var replylist = json[i].replys;
+				var data = {'img':img, 'content':content, 'like_num':like_num, 'board_idx':board_idx, 'replylist':replylist};
+				console.log(data.replylist[0]);
+				var one = document.createElement('li');
+				var ones = addscroll(data);
+				one.innerHTML = ones;
+				lists.appendChild(one);
+			}
+		}
+	}
+	
+	//댓글 달기 Ajax
+	function add_reply(board_idx){
+		var reply_content = document.getElementById("post_comment_add_loc").value;
+		var url = "add_reply"
+		var param = "board_idx="+board_idx+"&reply="+reply_content;
+		sendRequest(url, param, resultClickAddreply, "GET");
+	}
+	function resultClickAddreply(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			var data = xhr.responseText;
+			var replyUl = document.getElementById("post_comment_headers_"+data);
+			var oneReply = document.createElement('li');
+			var user_id = document.getElementById("user_id").value;
+			var record_content = document.getElementById("post_comment_add_loc").value;
+			
+			oneReply.innerHTML = "<b>"+user_id+"</b> "+record_content;
+			replyUl.appendChild(oneReply);
+		}
+	}
 
+	//좋아요 버튼 Ajax
 	function like(board_idx){
-		alert("여기");
 		var btn_like = document.getElementById("btn_like_"+board_idx).src;
 		var param = "board_idx=" + board_idx;
 		if(btn_like.includes('_click')){
@@ -58,10 +86,8 @@
 		} else{
 			var url = "clickLike";//+1
 		}
-		alert(url);
 		sendRequest(url, param, resultClickLike, "GET");
 	}
-	
 	function resultClickLike(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var data = xhr.responseText;
@@ -75,7 +101,6 @@
 				addLikeNumber = Number(num)+1;
 				document.getElementById("btn_like_"+data).src = "${ pageContext.request.contextPath }/resources/images/post_button1_click.png";
 			}
-			
 			likeView.innerHTML = "좋아요 "+addLikeNumber+"개";
 		}
 	}
@@ -96,6 +121,26 @@
 		}
 		document.getElementById("imgloc").src = path + num + ".jpg";
 	}
+	
+	//---------------------------------------------
+	function click_follow(follow_id){
+		var url = "follow";
+		var param = "follow_id=" + follow_id;
+		sendRequest(url, param, resultFollow, "GET");
+	}
+	
+	function resultFollow(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			/* 팔로우 버튼 클릭 시 화면 어떻게 할지 새로고침 또는 팔로우 한 사람 지우기 구현 */
+		}
+	}
+	
+	function click_follow_send(follow_id){
+		var f = document.f;
+		f.follow_idx.value = ""+follow_id;
+		f.submit();
+	}
+	//---------------------------------------------
 </script>
 
 </head>
@@ -103,21 +148,23 @@
 
 	<jsp:include page="../header.jsp" />
 
+
+	<input id="user_id" type="hidden" value="${user_info_id}">
 	<main class="main">
 		<div class="contain">
 			<ul id="lists">
 				<li class="one_post">
-					<c:forEach var="loadlist" items="${loadlist}">
+					<c:forEach var="loadlist" items="${loadlist}"><%-- <c:forEach var="userlist" items="${userlist}"> --%>
 						<div class="article">
 							<article class="article2">
 								<header class="header_title">
 									<div class="post_icon">
-										<a href="#"> <img
+										<a href="/instagrarn/profile?user_idx=${loadlist.user_idx }"> <img
 											src="${ pageContext.request.contextPath }/resources/images/IconME.png"
 											alt="myInfo">
 										</a>
 									</div>
-									<div class="post_name">wooseong2</div>
+									<div class="post_name">${loadlist.id }</div>
 									<div class="post_sub_action">...</div>
 								</header>
 								<div class="post_img">
@@ -148,9 +195,8 @@
 										</div>
 	
 										<div class="post_button_right">
-											<a href="#"> <img
-												src="${ pageContext.request.contextPath }/resources/images/post_button4.png"
-												alt="bookmark">
+											<a href="#">
+												<img src="${ pageContext.request.contextPath }/resources/images/post_button4.png" alt="bookmark">
 											</a>
 										</div>
 	
@@ -162,32 +208,33 @@
 								<div>
 									<div class="post_content">
 										<div class="post_content_header">
-											<span>wooseong2</span> ${loadlist.content}
+											<span>${userlist.id }</span> ${loadlist.content}
 										</div>
-										<div class="post_content_more_button">
+										<!-- <div class="post_content_more_button">
 											<a href="#">더보기</a>
-										</div>
+										</div> -->
 									</div>
 									<div class="post_comment">
-										<div class="post_comment_more_button">
+										<!-- <div class="post_comment_more_button">
 											<a href="#">댓글 n개 모두 보기</a>
-										</div>
-										<div class="post_comment_headers">
-											<span>95wooseong</span> 첫번째 댓글이답!<br> <span>5you_bin</span>
-											두번째 댓글인데욤..<br>
-										</div>
+										</div> -->
+										<ul id="post_comment_headers_${loadlist.board_idx}">
+											<c:forEach var="replylist" items="${loadlist.replys}">
+												<li><b>${replylist[0]}</b> ${replylist[1]}</li>
+											</c:forEach>
+										</ul>
 										<div class="post_comment_date">1일 전</div>
 									</div>
 								</div>
 								<div>
 									<div class="post_comment_add">
-										<input id="post_comment_add_loc" value="댓글 달기..."> <input
-											id="post_comment_add_btn" type="button" value="게시">
+										<input id="post_comment_add_loc" placeholder="댓글 달기...">
+										<input id="post_comment_add_btn" type="button" value="게시" onclick="add_reply(${loadlist.board_idx});">
 									</div>
 								</div>
 							</article>
 						</div>
-					</c:forEach>
+					</c:forEach><%-- </c:forEach> --%>
 					<div class="sub_menu">
 						<div class="user_info">
 							<div class="user_info_profile_img">
@@ -197,7 +244,7 @@
 								</a>
 							</div>
 							<div class="user_info_name_id">
-								<span class="user_info_id">95wooseong</span> <br>우성
+								<span class="user_info_id">${user_info_id}</span> <br>${user_info_fullname}
 							</div>
 						</div>
 
@@ -206,41 +253,28 @@
 							<div class="friend_story_contents">회원님이 팔로우하는 사람들의 스토리가 여기에
 								표시됩니다.</div>
 						</div>
-
-						<div class="friend_recommend">
-							<div>
-								<div>
-									회원님을 위한 추천 <a href="#">모두 보기</a>
-								</div>
+						
+						<form action="follow" method="post" name="f">
+							<input type="hidden" name="follow_idx" id="follow_idx" value="">
+						</form>
+						
+						<ul class="friend_recommend">
+							<div class="friend_recommend_title">
+								회원님을 위한 추천 <a class="more_view_recommend" href="#">모두 보기</a>
 							</div>
-
-							<div>
-								<div>
-									아이디<br> 회원님을 팔로우 합니다
-								</div>
-								<a href="#">팔로우</a>
-							</div>
-
-							<div>
-								<div>
-									아이디<br> 회원님을 팔로우 합니다
-								</div>
-								<a href="#">팔로우</a>
-							</div>
-
-							<div>
-								<div>
-									아이디<br> 회원님을 팔로우 합니다
-								</div>
-								<a href="#">팔로우</a>
-							</div>
-
-						</div>
+							
+							<c:forEach var="ones" items="${recommendlist}">
+								<li>
+									<span class="recommend_id">${ones.id}</span><br> 회원님을 팔로우 합니다<!-- /instagrarn/follow?follow_id=${ones.idx} -->
+									<a class="recommend_follow" href="javascript:void(0);" onclick="click_follow_send(${ones.idx});">팔로우</a>
+								</li>
+							</c:forEach>
+						</ul>
 
 						<div class="etc">홈페이지 소개, 도움말, API, 개인정보처리방침, 약관, 위치, 해시태그,
 							언어</div>
 
-						<div class="end">저작권그거</div>
+						<div class="end">© 2020 INSTAGRAM FROM FACEBOOK</div>
 
 					</div>
 				</li>
