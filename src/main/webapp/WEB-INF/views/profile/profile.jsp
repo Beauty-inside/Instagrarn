@@ -46,10 +46,10 @@
 					<span class="profile_middle_text">게시물<span class="post_num"> ${post_num}</span></span>		
 				</div>
 				<div class="follow">
-					<span class="profile_middle_text">팔로워<span class="follow_num"> 12</span></span>
+					<span class="profile_middle_text">팔로워<span class="follow_num"> ${follower}</span></span>
 				</div>
 				<div class="following">
-					<span class="profile_middle_text">팔로워<span class="following_num"> 12</span></span>						
+					<span class="profile_middle_text">팔로우<span class="following_num"> ${follow}</span></span>						
 				</div>
 			</div>
 			<div class="profile_last">${user_full_name}</div>

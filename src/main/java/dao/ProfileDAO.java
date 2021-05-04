@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import vo.FollowVO;
 import vo.ProfileVO;
 import vo.UserVO;
 
@@ -61,7 +62,7 @@ public class ProfileDAO {
 		int set_page = page * 3;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//where user_idx = " + user_idx + "
 		//select * from InstagrarnDB.Insta_board_view where user_idx in (select following_idx from InstagrarnDB.Insta_follow where follower_idx = 1) order by board_idx desc limit 0, 3;
-		String sql = "select * from Insta_board_view where user_idx in ((select following_idx from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
+		String sql = "select * from Insta_board_view where user_idx in ((select group_concat(following_idx) from InstagrarnDB.Insta_follow where follower_idx = "+ user_idx +"), "+ user_idx +") order by board_idx desc limit " + set_page + ", 3";
 		
 		List<ProfileVO> list =jdbcTemplate.query(sql, new RowMapper<ProfileVO>() {
 
@@ -233,6 +234,21 @@ public class ProfileDAO {
 
 		int res = jdbcTemplate.update("DELETE FROM Insta_likes WHERE user_idx = ? AND board_idx = ?", user_idx, board_idx);
 		
+		return res;
+	}
+
+
+	public int follower(int user_info_idx) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int res = jdbcTemplate.queryForInt("select count(*) from Insta_follow where following_idx = " + user_info_idx);
+		return res;
+	}
+	
+	public int follow(int user_info_idx) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int res = jdbcTemplate.queryForInt("select count(*) from Insta_follow where follower_idx = " + user_info_idx);
 		return res;
 	}
 

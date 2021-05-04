@@ -25,6 +25,31 @@
 			document.getElementById("user_tag").style="display:block";
 		}
 		
+        var modal = document.getElementById('myModal');
+        
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+ 
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];                                          
+ 
+        // When the user clicks on the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+ 
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+ 
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+		
 	</script>
 </head>
 <body>
@@ -54,10 +79,10 @@
 					<span class="profile_middle_text">게시물<span class="post_num"> ${post_num}</span></span>		
 				</div>
 				<div class="follow">
-					<span class="profile_middle_text">팔로워<span class="follow_num"> 12</span></span>
+					<span class="profile_middle_text">팔로워<span class="follow_num"> ${follower}</span></span>
 				</div>
 				<div class="following">
-					<span class="profile_middle_text">팔로워<span class="following_num"> 12</span></span>						
+					<span class="profile_middle_text">팔로우<span class="following_num"> ${follow}</span></span>						
 				</div>
 			</div>
 			<div class="profile_last">${user_info_fullname}</div>
@@ -139,7 +164,21 @@
 				</c:forEach>
 			</div>
 		</div>
-	</c:if>			
+	</c:if>
+
+	  <button id="myBtn">Open Modal</button>
+	 
+	    <!-- The Modal -->
+	    <div id="myModal" class="modal">
+	 
+	      <!-- Modal content -->
+	      <div class="modal-content">
+	        <span class="close">&times;</span>                                                               
+	        <p>Some text in the Modal..</p>
+	      </div>
+	 
+	    </div>
+
 	<div class="user_tag" id="user_tag" style="display:none;">아직 저장된게 없음</div>
 		
 </main>
